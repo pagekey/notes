@@ -8,6 +8,10 @@
 
 use pagekey_xylo::start;
 
+fn greet() -> String {
+    "Hello world from notes!".to_string()
+}
+
 fn main() {
-    start();
+    start(greet);
 }
