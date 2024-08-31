@@ -1,11 +1,4 @@
-// placeholder
-
-// fn hello_route(name: &str) -> String {
-//     format!("Hello, {}", name)
-// }
-
-// pub const ROUTES: &[fn()] = &[hello_route];
-
+use pagekey_xylo::Route;
 use pagekey_xylo::start;
 
 fn greet() -> String {
@@ -13,5 +6,9 @@ fn greet() -> String {
 }
 
 fn main() {
-    start(greet);
+    let route = Route {
+        path: "/".to_string(),
+        handler: greet,
+    };
+    start(route);
 }
