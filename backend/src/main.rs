@@ -1,14 +1,23 @@
+use std::sync::Arc;
 use pagekey_xylo::Route;
 use pagekey_xylo::start;
 
-fn greet() -> String {
-    "Hello world from notes!".to_string()
+fn index() -> String {
+    "Hello world from notes!!".to_string()
+}
+fn other() -> String {
+    "Other route".to_string()
 }
 
 fn main() {
-    let route = Route {
-        path: "/".to_string(),
-        handler: greet,
+    let route1 = Route {
+        path: "index".to_string(),
+        handler: Arc::new(index),
     };
-    start(route);
+    let route2 = Route {
+        path: "other".to_string(),
+        handler: Arc::new(other),
+    };
+    let routes = vec![route1, route2];
+    start(routes);
 }
