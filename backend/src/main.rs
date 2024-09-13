@@ -37,6 +37,13 @@ fn other() -> SampleMessage {
         code: 123,
     }
 }
+fn new_note() -> SampleMessage {
+    println!("Got note, saving.");
+    SampleMessage {
+        message: "Saved note.".to_string(),
+        code: 0,
+    }
+}
 
 fn main() {
     let route1 = Route {
@@ -47,6 +54,14 @@ fn main() {
         path: "other".to_string(),
         handler: Arc::new(other),
     };
-    let routes = vec![route1, route2];
+    let new_note_route = Route {
+        path: "notes_new".to_string(),
+        handler: Arc::new(new_note),
+    };
+    let routes = vec![
+        route1,
+        route2,
+        new_note_route,
+    ];
     start(routes);
 }

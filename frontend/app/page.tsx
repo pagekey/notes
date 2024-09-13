@@ -20,13 +20,16 @@ export default function Home() {
   return (
     <div>
       <div>
-        Welcome to your new Xylo app.
+        PageKey Tasks
       </div>
       <div>
         <Button color="red" onClick={sendRequest}>This is a button</Button>
       </div>
       <div>
         Data: {data}
+      </div>
+      <div>
+        <Button component="a" href="/inbox/new">Take a note</Button>
       </div>
     </div>
   )
