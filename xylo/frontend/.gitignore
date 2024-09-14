@@ -1,0 +1,6 @@
+.rollup.cache
+node_modules/
+output/
+*.tsbuildinfo
+*.tgz
+tmp/

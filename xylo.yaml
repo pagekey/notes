@@ -1,0 +1,13 @@
+name: pagekey-tasks
+version: 0.1.0
+pages:
+  home:
+    component: pagekey-tasks-frontend:HomePage
+    path: / 
+  about:
+    component: pagekey-tasks-frontend:AboutPage
+    path: /about
+routes:
+  info:
+    handler: pagekey_tasks_backend.info:handle_info
+    path: /
