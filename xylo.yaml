@@ -11,3 +11,8 @@ routes:
   info:
     handler: pagekey_tasks_backend.info:handle_info
     path: /
+    method: get
+  save_note:
+    handler: pagekey_tasks_backend.notes:save
+    path: /save_note
+    method: post

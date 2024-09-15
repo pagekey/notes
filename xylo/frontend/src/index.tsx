@@ -3,7 +3,16 @@ import React from 'react';
 
 const NoteForm = function() {
     const saveNote = () => {
-        console.log("saving:", document.getElementById("note").value);
+        const noteBody = document.getElementById("note").value;
+        fetch("http://localhost:5000/save_note", {
+            method: "POST",
+            body: JSON.stringify({
+                note: noteBody
+            }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
     };
     return (
         <>
