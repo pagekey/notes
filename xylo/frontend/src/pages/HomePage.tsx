@@ -2,6 +2,7 @@ import React from 'react';
 import NoteForm from '../components/NoteForm';
 import InboxList from '../components/InboxList';
 
+
 export default function() {
     const [message, setMessage] = React.useState<string>("Loading...");
     React.useEffect(() => {

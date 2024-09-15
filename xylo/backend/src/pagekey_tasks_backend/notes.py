@@ -1,3 +1,5 @@
+from dataclasses import asdict, dataclass
+import json
 import sqlite3
 
 
@@ -43,9 +45,17 @@ def save(body: dict):
         }
 
 
+@dataclass
+class Note:
+    id: int
+    body: str
+    created: str
+    updated: str
+
 def index(body: dict):
     notes = get_notes()
-    note_bodies = [note[1] for note in notes]
+    note_bodies = [asdict(Note(*note_args)) for note_args in notes]
+    print("bodies:",note_bodies)
     return {
         "notes": note_bodies,
     }
