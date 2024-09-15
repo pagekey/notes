@@ -22,6 +22,14 @@ def create_note(body: str):
     conn.commit()
     conn.close()
 
+def get_notes():
+    create_table_if_not_exists()
+    conn = sqlite3.connect("tasks.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM notes")
+    all_notes = cursor.fetchall()
+    return all_notes
+
 def save(body: dict):
     if "note" in body:
         note = body["note"]
@@ -33,3 +41,11 @@ def save(body: dict):
         return {
             "message": "no note provided"
         }
+
+
+def index(body: dict):
+    notes = get_notes()
+    note_bodies = [note[1] for note in notes]
+    return {
+        "notes": note_bodies,
+    }

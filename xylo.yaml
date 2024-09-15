@@ -7,6 +7,9 @@ pages:
   about:
     component: pagekey-tasks-frontend:AboutPage
     path: /about
+  inbox_process:
+    component: pagekey-tasks-frontend:InboxProcessPage
+    path: /inbox/process
 routes:
   info:
     handler: pagekey_tasks_backend.info:handle_info
@@ -16,3 +19,7 @@ routes:
     handler: pagekey_tasks_backend.notes:save
     path: /save_note
     method: post
+  notes_index:
+    handler: pagekey_tasks_backend.notes:index
+    path: /notes
+    method: get
