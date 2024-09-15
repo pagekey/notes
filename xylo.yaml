@@ -19,6 +19,10 @@ routes:
     handler: pagekey_tasks_backend.notes:save
     path: /save_note
     method: post
+  delete_note:
+    handler: pagekey_tasks_backend.notes:delete
+    path: /delete_note
+    method: post
   notes_index:
     handler: pagekey_tasks_backend.notes:index
     path: /notes

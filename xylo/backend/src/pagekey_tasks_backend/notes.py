@@ -30,7 +30,16 @@ def get_notes():
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM notes")
     all_notes = cursor.fetchall()
+    conn.close()
     return all_notes
+
+def delete_note(id: int):
+    create_table_if_not_exists()
+    conn = sqlite3.connect("tasks.db")
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM notes WHERE id = ?", (id,))
+    conn.commit()
+    conn.close()
 
 def save(body: dict):
     if "note" in body:
@@ -42,6 +51,17 @@ def save(body: dict):
     else:
         return {
             "message": "no note provided"
+        }
+
+def delete(body: dict):
+    if "id" in body:
+        delete_note(body['id'])
+        return {
+            "message": "deleted"
+        }
+    else:
+        return {
+            "message": "no id provided"
         }
 
 
