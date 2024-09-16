@@ -1,5 +1,32 @@
+from dataclasses import dataclass
+import sqlite3
+
+from .db import create_tables
+
+@dataclass
+class Project:
+    id: int
+    title: str
+    created: str
+    updated: str
+
+def create_project(title: str):
+    create_tables()
+    conn = sqlite3.connect("tasks.db")
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO projects (title) VALUES (?)", (title,))
+    conn.commit()
+    conn.close()
+
+
 def create(body: dict):
-    print("create project!!!!",body)
-    return {
-        "message": "not yet implemented"
-    }
+    if "title" in body:
+        title = body["title"]
+        create_project(title)
+        return {
+            "message": "saved to db",
+        }
+    else:
+        return {
+            "message": "no title provided"
+        }

@@ -54,7 +54,6 @@ def delete(body: dict):
             "message": "no id provided"
         }
 
-
 @dataclass
 class Note:
     id: int
