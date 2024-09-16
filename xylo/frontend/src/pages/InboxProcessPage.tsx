@@ -1,16 +1,9 @@
 import React from 'react';
 import { Note } from '../models/Note';
 import Button from '../components/std/Button';
-import TextInput from 'components/std/TextInput';
+import TextInput from '../components/std/TextInput';
+import Link from '../components/std/Link';
 
-
-const ProjectForm = () => {
-    return (
-        <>
-            Project form.
-        </>
-    )
-}
 
 interface ActionFormProps {
     label: string
@@ -69,15 +62,38 @@ export default () => {
     }
     const sendAction = (action: string) => {
         setActionFormShown(false);
-        console.log('saving action:',action);
+        fetch("http://localhost:5000/actions/create", {
+            method: "POST",
+            body: JSON.stringify({
+                title: action
+            }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }).then(res => res.json()).then(res => {
+            setIndex(index => index+1);
+            setActionFormShown(false);
+        });
     };
     const sendProject = (project: string) => {
         setActionFormShown(false);
-        console.log('saving project:',project);
+        fetch("http://localhost:5000/projects/create", {
+            method: "POST",
+            body: JSON.stringify({
+                title: project
+            }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }).then(res => res.json()).then(res => {
+            setIndex(index => index+1);
+            setProjectFormShown(false);
+        });
     }
 
     return (
         <div>
+            <Link href="/">Home</Link>
             <div>Process Inbox</div>
             {loading ? "Loading..." : (error ? "An error occurred." : (
                 index >= notes.length ? "All done!" : (

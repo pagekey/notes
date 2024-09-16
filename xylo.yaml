@@ -27,3 +27,11 @@ routes:
     handler: pagekey_tasks_backend.notes:index
     path: /notes
     method: get
+  projects-create:
+    handler: pagekey_tasks_backend.projects:create
+    path: /projects/create
+    method: post
+  actions-create:
+    handler: pagekey_tasks_backend.actions:create
+    path: /actions/create
+    method: post

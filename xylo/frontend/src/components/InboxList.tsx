@@ -1,5 +1,7 @@
 import React from 'react';
 import { Note } from '../models/Note';
+import Link from './std/Link';
+import Button from './std/Button';
 
 
 interface InboxListProps {
@@ -14,9 +16,11 @@ export default (props: InboxListProps) => {
                     return <li style={{ display: "block" }}>{note.body}</li>
                 })}
             </ul>
-            <a href="/inbox/process">
-                <button style={{backgroundColor: 'blue', borderRadius: '5px', padding: '5px', color: 'white'}}>Process</button>
-            </a>
+            <Link href="/inbox/process">
+                <Button>
+                    Process
+                </Button>
+            </Link>
         </div>
     )
 };

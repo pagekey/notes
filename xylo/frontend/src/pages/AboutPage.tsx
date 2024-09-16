@@ -1,10 +1,11 @@
+import Link from '../components/std/Link';
 import React from 'react';
 
 
 export default function() {
     return (
         <div>
-            ABOUT! Hello Xylo. <a href="/">Home page here.</a>
+            This is a tasks app. <Link href="/">Home</Link>
         </div>
     )
 };

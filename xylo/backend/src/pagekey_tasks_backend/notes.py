@@ -1,23 +1,13 @@
 from dataclasses import asdict, dataclass
-import json
 import sqlite3
 
+from .db import create_tables
 
-def create_table_if_not_exists():
-    conn = sqlite3.connect("tasks.db")
-    cursor = conn.cursor()
-    cursor.execute('''CREATE TABLE IF NOT EXISTS notes (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        body TEXT NOT NULL,
-        created DATETIME DEFAULT CURRENT_TIMESTAMP,
-        updated DATETIME DEFAUlt CURRENT_TIMESTAMP
-    )
-    ''')
-    conn.commit()
-    conn.close()
+
+
 
 def create_note(body: str):
-    create_table_if_not_exists()
+    create_tables()
     conn = sqlite3.connect("tasks.db")
     cursor = conn.cursor()
     cursor.execute("INSERT INTO notes (body) VALUES (?)", (body,))
@@ -25,7 +15,7 @@ def create_note(body: str):
     conn.close()
 
 def get_notes():
-    create_table_if_not_exists()
+    create_tables()
     conn = sqlite3.connect("tasks.db")
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM notes")
@@ -34,7 +24,7 @@ def get_notes():
     return all_notes
 
 def delete_note(id: int):
-    create_table_if_not_exists()
+    create_tables()
     conn = sqlite3.connect("tasks.db")
     cursor = conn.cursor()
     cursor.execute("DELETE FROM notes WHERE id = ?", (id,))

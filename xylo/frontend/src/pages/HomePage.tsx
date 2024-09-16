@@ -2,10 +2,10 @@ import React from 'react';
 import NoteForm from '../components/NoteForm';
 import InboxList from '../components/InboxList';
 import { Note } from '../models/Note';
+import Link from '../components/std/Link';
 
 
 export default function() {
-    const [message, setMessage] = React.useState<string>("Loading...");
     const [notes, setNotes] = React.useState<Note[]>([]);
     React.useEffect(() => {
         fetch("http://localhost:5000/notes", {
@@ -14,11 +14,6 @@ export default function() {
             console.log('hey',res)
             setNotes(res['notes']);
         });
-    }, []);
-    React.useEffect(() => {
-        fetch("http://localhost:5000/").then(resp => resp.json()).then(data => {
-            setMessage(data.message);
-        })
     }, []);
     const saveNote = () => {
         const noteElem = document.getElementById("note");
@@ -43,8 +38,7 @@ export default function() {
         <div>
             <div style={{fontSize: "150%"}}>PageKey Tasks</div>
             <div style={{fontWeight: "bold"}}>Home</div>
-            <div>Here is a link to about: <a href="/about" style={{textDecoration: "underline"}}>About</a></div>
-            <div>Message from server: {message}</div>
+            <div><Link href="/about">About</Link></div>
             <NoteForm saveNote={saveNote} />
             <InboxList notes={notes} />
             <div style={{fontWeight: 'bold'}}>Next Actions</div>
