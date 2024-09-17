@@ -1,6 +1,6 @@
 import React from 'react';
-import TextInput from './std/TextInput';
 import Button from './std/Button';
+import TextArea from './std/TextArea';
 
 
 interface NoteFormProps {
@@ -13,7 +13,7 @@ export default function(props: NoteFormProps) {
                 <label style={{fontWeight: 'bold'}}>Note</label>
             </div>
             <div style={{display: 'block'}}>
-                <TextInput id="note" />
+                <TextArea id="note" />
             </div>
             <div style={{display: 'block'}}>
                 <Button onClick={props.saveNote}>Save</Button>

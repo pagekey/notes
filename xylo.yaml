@@ -31,7 +31,15 @@ routes:
     handler: pagekey_tasks_backend.projects:create
     path: /projects/create
     method: post
+  projects-index:
+    handler: pagekey_tasks_backend.projects:index
+    path: /projects/
+    method: get
   actions-create:
     handler: pagekey_tasks_backend.actions:create
     path: /actions/create
     method: post
+  actions-index:
+    handler: pagekey_tasks_backend.actions:index
+    path: /actions/
+    method: get

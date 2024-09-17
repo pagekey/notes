@@ -4,8 +4,6 @@ import sqlite3
 from .db import create_tables
 
 
-
-
 def create_note(body: str):
     create_tables()
     conn = sqlite3.connect("tasks.db")
@@ -13,6 +11,7 @@ def create_note(body: str):
     cursor.execute("INSERT INTO notes (body) VALUES (?)", (body,))
     conn.commit()
     conn.close()
+
 
 def get_notes():
     create_tables()
@@ -23,6 +22,7 @@ def get_notes():
     conn.close()
     return all_notes
 
+
 def delete_note(id: int):
     create_tables()
     conn = sqlite3.connect("tasks.db")
@@ -30,6 +30,7 @@ def delete_note(id: int):
     cursor.execute("DELETE FROM notes WHERE id = ?", (id,))
     conn.commit()
     conn.close()
+
 
 def save(body: dict):
     if "note" in body:
@@ -43,6 +44,7 @@ def save(body: dict):
             "message": "no note provided"
         }
 
+
 def delete(body: dict):
     if "id" in body:
         delete_note(body['id'])
@@ -54,6 +56,7 @@ def delete(body: dict):
             "message": "no id provided"
         }
 
+
 @dataclass
 class Note:
     id: int
@@ -61,10 +64,10 @@ class Note:
     created: str
     updated: str
 
+
 def index(body: dict):
     notes = get_notes()
     note_bodies = [asdict(Note(*note_args)) for note_args in notes]
-    print("bodies:",note_bodies)
     return {
         "notes": note_bodies,
     }

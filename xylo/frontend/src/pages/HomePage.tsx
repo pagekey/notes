@@ -3,16 +3,29 @@ import NoteForm from '../components/NoteForm';
 import InboxList from '../components/InboxList';
 import { Note } from '../models/Note';
 import Link from '../components/std/Link';
+import { Action } from '../models/Action';
+import { Project } from '../models/Project';
 
 
 export default function() {
     const [notes, setNotes] = React.useState<Note[]>([]);
+    const [actions, setActions] = React.useState<Action[]>([]);
+    const [projects, setProjects] = React.useState<Project[]>([]);
     React.useEffect(() => {
         fetch("http://localhost:5000/notes", {
             method: "GET",
         }).then(res => res.json()).then(res => {
-            console.log('hey',res)
             setNotes(res['notes']);
+        });
+        fetch("http://localhost:5000/actions", {
+            method: "GET",
+        }).then(res => res.json()).then(res => {
+            setActions(res['actions']);
+        });
+        fetch("http://localhost:5000/projects", {
+            method: "GET",
+        }).then(res => res.json()).then(res => {
+            setProjects(res['projects']);
         });
     }, []);
     const saveNote = () => {
@@ -42,7 +55,21 @@ export default function() {
             <NoteForm saveNote={saveNote} />
             <InboxList notes={notes} />
             <div style={{fontWeight: 'bold'}}>Next Actions</div>
+            {actions.map(action => {
+                return (
+                    <div>
+                        {action.title}
+                    </div>
+                )
+            })}
             <div style={{fontWeight: 'bold'}}>Projects</div>
+            {projects.map(project => {
+                return (
+                    <div>
+                        {project.title}
+                    </div>
+                )
+            })}
         </div>
     )
 };

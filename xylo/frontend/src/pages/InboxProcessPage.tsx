@@ -40,17 +40,19 @@ export default () => {
     }, []);
     
     const sendTrash = (id: number) => {
-        fetch("http://localhost:5000/delete_note", {
-            method: "POST",
-            body: JSON.stringify({
-                id
-            }),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        }).then(res => res.json()).then(res => {
-            setIndex(index => index+1);
-        });
+        if (confirm("Delete this note permanently?")) {
+            fetch("http://localhost:5000/delete_note", {
+                method: "POST",
+                body: JSON.stringify({
+                    id
+                }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }).then(res => res.json()).then(res => {
+                setIndex(index => index+1);
+            });
+        }
     };
     const handleCreateAction = () => {
         setActionFormShown(true);
@@ -99,7 +101,7 @@ export default () => {
                 index >= notes.length ? "All done!" : (
                     <>
                         <div>Reviewing note {index+1} of {notes.length}</div>
-                        <div style={{fontSize: "150%"}}>{notes[index].body}</div>
+                        <div style={{fontSize: "150%"}}><pre>{notes[index].body}</pre></div>
                         <div>
                             <Button onClick={() => sendTrash(notes[index].id)}>Trash</Button>
                             <Button onClick={handleCreateAction}>Create action</Button>
