@@ -58,7 +58,7 @@ export default function() {
             {actions.map(action => {
                 return (
                     <div>
-                        {action.title}
+                        {action}
                     </div>
                 )
             })}
