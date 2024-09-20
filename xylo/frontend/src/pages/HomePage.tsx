@@ -34,7 +34,7 @@ export default function() {
         if (noteBody.length < 1) {
             return;
         }
-        fetch("http://localhost:5000/save_note", {
+        fetch("http://localhost:5000/notes/create", {
             method: "POST",
             body: JSON.stringify({
                 note: noteBody

@@ -1,16 +1,21 @@
 from dataclasses import asdict, dataclass
+from pathlib import Path
 import sqlite3
 
 from .db import create_tables
 
 
-def create_note(body: str):
-    create_tables()
-    conn = sqlite3.connect("tasks.db")
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO notes (body) VALUES (?)", (body,))
-    conn.commit()
-    conn.close()
+def create_note(title: str, body: str):
+    notes_file = Path(".") / "notes" / "Inbox" / f"{title}.md"
+    notes_file.parent.mkdir(parents=True, exist_ok=True)
+    with open(notes_file, 'w') as file_handle:
+        file_handle.write(body + "\n")
+    # create_tables()
+    # conn = sqlite3.connect("tasks.db")
+    # cursor = conn.cursor()
+    # cursor.execute("INSERT INTO notes (body) VALUES (?)", (body,))
+    # conn.commit()
+    # conn.close()
 
 
 def get_notes():
@@ -34,8 +39,12 @@ def delete_note(id: int):
 
 def save(body: dict):
     if "note" in body:
+        if "title" not in body:
+            title = "fake-title"
+        else:
+            title = body["title"]
         note = body["note"]
-        create_note(note)
+        create_note(title, note)
         return {
             "message": "saved to db",
         }

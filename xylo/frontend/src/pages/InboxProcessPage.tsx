@@ -41,7 +41,7 @@ export default () => {
     
     const sendTrash = (id: number) => {
         if (confirm("Delete this note permanently?")) {
-            fetch("http://localhost:5000/delete_note", {
+            fetch("http://localhost:5000/notes/delete", {
                 method: "POST",
                 body: JSON.stringify({
                     id
