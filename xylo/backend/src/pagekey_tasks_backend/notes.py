@@ -1,41 +1,40 @@
 from dataclasses import asdict, dataclass
 from pathlib import Path
-import sqlite3
-
-from .db import create_tables
 
 
 def create_note(title: str, body: str):
-    notes_file = Path(".") / "notes" / "Inbox" / f"{title}.md"
-    notes_file.parent.mkdir(parents=True, exist_ok=True)
+    notes_dir = Path(".") / "notes" / "Inbox"
+    notes_dir.mkdir(parents=True, exist_ok=True)
+    latest_id = -1
+    for note_file in notes_dir.iterdir():
+        note_file_id = int(note_file.name.split("_")[0])
+        if note_file_id > latest_id:
+            latest_id = note_file_id
+    latest_id += 1
+    notes_file = notes_dir / f"{latest_id}_{title}.md"
     with open(notes_file, 'w') as file_handle:
         file_handle.write(body + "\n")
-    # create_tables()
-    # conn = sqlite3.connect("tasks.db")
-    # cursor = conn.cursor()
-    # cursor.execute("INSERT INTO notes (body) VALUES (?)", (body,))
-    # conn.commit()
-    # conn.close()
 
 
 def get_notes():
-    create_tables()
-    conn = sqlite3.connect("tasks.db")
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM notes")
-    all_notes = cursor.fetchall()
-    conn.close()
-    return all_notes
+    notes_dir = Path(".") / "notes" / "Inbox"
+    notes = []
+    for note_file in notes_dir.iterdir():
+        id = note_file.name.split("_")[0]
+        title = note_file.name.replace(".md", "").replace(f"{id}_", "")
+        with open(note_file) as note_file_handle:
+            body = note_file_handle.read()
+        notes.append(Note(id=id, title=title, body=body))
+    return notes
 
 
-def delete_note(id: int):
-    create_tables()
-    conn = sqlite3.connect("tasks.db")
-    cursor = conn.cursor()
-    cursor.execute("DELETE FROM notes WHERE id = ?", (id,))
-    conn.commit()
-    conn.close()
-
+def delete_note(id: str):
+    notes_dir = Path(".") / "notes" / "Inbox"
+    notes_dir.mkdir(parents=True, exist_ok=True)
+    for note_file in notes_dir.iterdir():
+        note_file_id = int(note_file.name.split("_")[0])
+        if note_file_id == id:
+            note_file.unlink()
 
 def save(body: dict):
     if "note" in body:
@@ -68,15 +67,14 @@ def delete(body: dict):
 
 @dataclass
 class Note:
-    id: int
+    id: str
+    title: str
     body: str
-    created: str
-    updated: str
 
 
 def index(body: dict):
     notes = get_notes()
-    note_bodies = [asdict(Note(*note_args)) for note_args in notes]
+    note_bodies = [asdict(note) for note in notes]
     return {
         "notes": note_bodies,
     }

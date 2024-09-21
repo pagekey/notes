@@ -13,7 +13,7 @@ export default (props: InboxListProps) => {
             <div style={{fontWeight: 'bold'}}>Inbox{props.notes.length > 0 ? ` (${props.notes.length})` : ""}</div>
             <ul>
                 {props.notes.map(note => {
-                    return <li style={{ display: "block" }}>{note.body}</li>
+                    return <li style={{ display: "block" }}><b>{note.title}</b><br/>{note.body}</li>
                 })}
             </ul>
             <Link href="/inbox/process">

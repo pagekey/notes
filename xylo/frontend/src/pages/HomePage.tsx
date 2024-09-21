@@ -3,13 +3,12 @@ import NoteForm from '../components/NoteForm';
 import InboxList from '../components/InboxList';
 import { Note } from '../models/Note';
 import Link from '../components/std/Link';
-import { Action } from '../models/Action';
 import { Project } from '../models/Project';
 
 
 export default function() {
     const [notes, setNotes] = React.useState<Note[]>([]);
-    const [actions, setActions] = React.useState<Action[]>([]);
+    const [actions, setActions] = React.useState<string[]>([]);
     const [projects, setProjects] = React.useState<Project[]>([]);
     React.useEffect(() => {
         fetch("http://localhost:5000/notes", {
@@ -29,7 +28,9 @@ export default function() {
         });
     }, []);
     const saveNote = () => {
+        const titleElem = document.getElementById("note_title");
         const noteElem = document.getElementById("note");
+        const noteTitle = titleElem.value;
         const noteBody = noteElem.value;
         if (noteBody.length < 1) {
             return;
@@ -37,12 +38,14 @@ export default function() {
         fetch("http://localhost:5000/notes/create", {
             method: "POST",
             body: JSON.stringify({
+                title: noteTitle,
                 note: noteBody
             }),
             headers: {
                 "Content-Type": "application/json",
             },
         }).then(res => {
+            noteTitle.value = "";
             noteElem.value = "";
             setNotes(notes => [...notes, {id: undefined, body: noteBody, created: undefined, updated: undefined}])
         });

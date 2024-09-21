@@ -101,6 +101,7 @@ export default () => {
                 index >= notes.length ? "All done!" : (
                     <>
                         <div>Reviewing note {index+1} of {notes.length}</div>
+                        <div style={{fontWeight: 'bold'}}>{notes[index].title}</div>
                         <div style={{fontSize: "150%"}}><pre>{notes[index].body}</pre></div>
                         <div>
                             <Button onClick={() => sendTrash(notes[index].id)}>Trash</Button>
