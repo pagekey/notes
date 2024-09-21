@@ -58,21 +58,51 @@ export default function() {
             <NoteForm saveNote={saveNote} />
             <InboxList notes={notes} />
             <div style={{fontWeight: 'bold'}}>Next Actions</div>
-            {actions.map(action => {
-                return (
-                    <div>
-                        {action}
-                    </div>
-                )
-            })}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>Context</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {actions.map(action => {
+                        return (
+                            <tr>
+                                <td>
+                                    {action}
+                                </td>
+                                <td>
+                                    {/*TODO*/}
+                                </td>
+                            </tr>
+                        )
+                    })}
+                </tbody>
+            </table>
             <div style={{fontWeight: 'bold'}}>Projects</div>
-            {projects.map(project => {
-                return (
-                    <div>
-                        {project.title}
-                    </div>
-                )
-            })}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Project</th>
+                        <th>Next Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {projects.map(project => {
+                        return (
+                            <tr>
+                                <td>
+                                    {project.title}
+                                </td>
+                                <td>
+                                    {/*TODO*/}
+                                </td>
+                            </tr>
+                        )
+                    })}
+                </tbody>
+            </table>
         </div>
     )
 };
