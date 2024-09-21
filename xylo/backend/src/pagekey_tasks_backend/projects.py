@@ -1,37 +1,31 @@
 from dataclasses import asdict, dataclass
-import sqlite3
-
-from .db import create_tables
+from pathlib import Path
+from typing import List
 
 
 @dataclass
 class Project:
-    id: int
     title: str
-    created: str
-    updated: str
 
 
 def create_project(title: str):
-    create_tables()
-    conn = sqlite3.connect("tasks.db")
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO projects (title) VALUES (?)", (title,))
-    conn.commit()
-    conn.close()
+    projects_dir = Path(".") / "notes" / "Projects"
+    project_file = projects_dir / title / f"_{title}.md"
+    project_file.parent.mkdir(parents=True, exist_ok=True)
+    with open(project_file, 'w') as file_handle:
+        file_handle.write("Goals\n\nPOCs\n\nProjects\n")
 
 
 def get_projects():
-    create_tables()
-    conn = sqlite3.connect("tasks.db")
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM projects")
-    all_projects = cursor.fetchall()
-    conn.close()
-    return all_projects
+    projects_dir = Path(".") / "notes" / "Projects"
+    projects = []
+    for project_dir in projects_dir.iterdir():
+        title = project_dir.name
+        projects.append(Project(title=title))
+    return projects
 
 
-def create(body: dict):
+def create(body: dict) -> List[Project]:
     if "title" in body:
         title = body["title"]
         create_project(title)
@@ -45,7 +39,7 @@ def create(body: dict):
 
 def index(body: dict):
     projects = get_projects()
-    project_dicts = [asdict(Project(*project_args)) for project_args in projects]
+    project_dicts = [asdict(project) for project in projects]
     return {
         "projects": project_dicts,
     }

@@ -2,6 +2,13 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 
 
+@dataclass
+class Note:
+    id: str
+    title: str
+    body: str
+
+
 def create_note(title: str, body: str):
     notes_dir = Path(".") / "notes" / "Inbox"
     notes_dir.mkdir(parents=True, exist_ok=True)
@@ -11,8 +18,8 @@ def create_note(title: str, body: str):
         if note_file_id > latest_id:
             latest_id = note_file_id
     latest_id += 1
-    notes_file = notes_dir / f"{latest_id}_{title}.md"
-    with open(notes_file, 'w') as file_handle:
+    note_file = notes_dir / f"{latest_id}_{title}.md"
+    with open(note_file, 'w') as file_handle:
         file_handle.write(body + "\n")
 
 
@@ -63,13 +70,6 @@ def delete(body: dict):
         return {
             "message": "no id provided"
         }
-
-
-@dataclass
-class Note:
-    id: str
-    title: str
-    body: str
 
 
 def index(body: dict):
