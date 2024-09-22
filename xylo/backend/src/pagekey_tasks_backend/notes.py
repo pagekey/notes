@@ -26,6 +26,7 @@ def create_note(title: str, body: str):
 def get_notes():
     notes_dir = Path(".") / "notes" / "Inbox"
     notes = []
+    notes_dir.mkdir(parents=True, exist_ok=True)
     for note_file in notes_dir.iterdir():
         id = note_file.name.split("_")[0]
         title = note_file.name.replace(".md", "").replace(f"{id}_", "")
@@ -40,7 +41,7 @@ def delete_note(id: str):
     notes_dir.mkdir(parents=True, exist_ok=True)
     for note_file in notes_dir.iterdir():
         note_file_id = int(note_file.name.split("_")[0])
-        if note_file_id == id:
+        if note_file_id == int(id):
             note_file.unlink()
 
 def save(body: dict):

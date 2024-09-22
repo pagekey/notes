@@ -45,9 +45,9 @@ export default function() {
                 "Content-Type": "application/json",
             },
         }).then(res => {
-            noteTitle.value = "";
+            titleElem.value = "";
             noteElem.value = "";
-            setNotes(notes => [...notes, {id: undefined, body: noteBody, created: undefined, updated: undefined}])
+            setNotes(notes => [...notes, {id: undefined, title: noteTitle, body: noteBody, created: undefined, updated: undefined}])
         });
     };
     return (

@@ -19,6 +19,7 @@ def create_project(title: str):
 def get_projects():
     projects_dir = Path(".") / "notes" / "Projects"
     projects = []
+    projects_dir.mkdir(parents=True, exist_ok=True)
     for project_dir in projects_dir.iterdir():
         title = project_dir.name
         projects.append(Project(title=title))
