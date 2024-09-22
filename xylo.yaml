@@ -11,17 +11,13 @@ pages:
     component: pagekey-tasks-frontend:InboxProcessPage
     path: /inbox/process
 routes:
-  info:
-    handler: pagekey_tasks_backend.info:handle_info
-    path: /
-    method: get
-  save_note:
+  notes_create:
     handler: pagekey_tasks_backend.notes:save
-    path: /save_note
+    path: /notes/create
     method: post
-  delete_note:
+  notes_delete:
     handler: pagekey_tasks_backend.notes:delete
-    path: /delete_note
+    path: /notes/delete
     method: post
   notes_index:
     handler: pagekey_tasks_backend.notes:index

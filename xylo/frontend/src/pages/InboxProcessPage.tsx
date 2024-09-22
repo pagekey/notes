@@ -41,7 +41,7 @@ export default () => {
     
     const sendTrash = (id: number) => {
         if (confirm("Delete this note permanently?")) {
-            fetch("http://localhost:5000/delete_note", {
+            fetch("http://localhost:5000/notes/delete", {
                 method: "POST",
                 body: JSON.stringify({
                     id
@@ -62,8 +62,17 @@ export default () => {
         setActionFormShown(false);
         setProjectFormShown(true);
     }
-    const sendAction = (action: string) => {
+    const sendAction = (action: string, note_id: number) => {
         setActionFormShown(false);
+        fetch("http://localhost:5000/notes/delete", {
+            method: "POST",
+            body: JSON.stringify({
+                id: note_id,
+            }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
         fetch("http://localhost:5000/actions/create", {
             method: "POST",
             body: JSON.stringify({
@@ -77,8 +86,17 @@ export default () => {
             setActionFormShown(false);
         });
     };
-    const sendProject = (project: string) => {
+    const sendProject = (project: string, note_id: number) => {
         setActionFormShown(false);
+        fetch("http://localhost:5000/notes/delete", {
+            method: "POST",
+            body: JSON.stringify({
+                id: note_id,
+            }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
         fetch("http://localhost:5000/projects/create", {
             method: "POST",
             body: JSON.stringify({
@@ -101,14 +119,15 @@ export default () => {
                 index >= notes.length ? "All done!" : (
                     <>
                         <div>Reviewing note {index+1} of {notes.length}</div>
+                        <div style={{fontWeight: 'bold'}}>{notes[index].title}</div>
                         <div style={{fontSize: "150%"}}><pre>{notes[index].body}</pre></div>
                         <div>
                             <Button onClick={() => sendTrash(notes[index].id)}>Trash</Button>
                             <Button onClick={handleCreateAction}>Create action</Button>
                             <Button onClick={handleCreateProject}>Create project</Button>
                         </div>
-                        {actionFormShown && <ActionForm label="Creating Action" onCreate={sendAction} initialValue={notes[index].body} />}
-                        {projectFormShown && <ActionForm label="Creating Project" onCreate={sendProject} initialValue={notes[index].body} />}
+                        {actionFormShown && <ActionForm label="Creating Action" onCreate={(action) => sendAction(action, notes[index].id)} initialValue={notes[index].body} />}
+                        {projectFormShown && <ActionForm label="Creating Project" onCreate={(project) => sendProject(project, notes[index].id)} initialValue={notes[index].body} />}
                     </>
             )))}
         </div>
