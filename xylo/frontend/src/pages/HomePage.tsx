@@ -4,13 +4,21 @@ import InboxList from '../components/InboxList';
 import { Note } from '../models/Note';
 import Link from '../components/std/Link';
 import { Project } from '../models/Project';
+import TextInput from '../components/std/TextInput';
+import Button from '../components/std/Button';
 
 
 export default function() {
+    const [workspace, setWorkspace] = React.useState<string>("loading");
     const [notes, setNotes] = React.useState<Note[]>([]);
     const [actions, setActions] = React.useState<string[]>([]);
     const [projects, setProjects] = React.useState<Project[]>([]);
     React.useEffect(() => {
+        fetch("http://localhost:5000/workspaces", {
+            method: "GET",
+        }).then(res => res.json()).then(res => {
+            setWorkspace(res['workspace']);
+        });
         fetch("http://localhost:5000/notes", {
             method: "GET",
         }).then(res => res.json()).then(res => {
@@ -50,11 +58,23 @@ export default function() {
             setNotes(notes => [...notes, {id: undefined, title: noteTitle, body: noteBody, created: undefined, updated: undefined}])
         });
     };
+    const sendSetWorkspace = () => {
+        fetch("http://localhost:5000/workspaces/set", {
+            method: "POST",
+            body: JSON.stringify({
+                workspace: workspace
+            }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+    };
     return (
         <div>
             <div style={{fontSize: "150%"}}>PageKey Tasks</div>
             <div style={{fontWeight: "bold"}}>Home</div>
             <div><Link href="/about">About</Link></div>
+            <div>Workspace: <TextInput value={workspace} onChange={(e) => setWorkspace(e.target.value)} /> <Button onClick={sendSetWorkspace}>Set</Button></div>
             <NoteForm saveNote={saveNote} />
             <InboxList notes={notes} />
             <div style={{fontWeight: 'bold'}}>Next Actions</div>

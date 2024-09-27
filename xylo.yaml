@@ -39,3 +39,11 @@ routes:
     handler: pagekey_tasks_backend.actions:index
     path: /actions/
     method: get
+  workspace-get:
+    handler: pagekey_tasks_backend.workspace:get
+    path: /workspaces/
+    method: get
+  workspace-set:
+    handler: pagekey_tasks_backend.workspace:set
+    path: /workspaces/set
+    method: post
