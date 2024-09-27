@@ -4,7 +4,7 @@ from pathlib import Path
 
 
 def get_workspace() -> str:
-    workspace = "."
+    workspace = "./notes"
     if Path("workspace.txt").exists():
         with open("workspace.txt") as f:
             workspace = f.read()

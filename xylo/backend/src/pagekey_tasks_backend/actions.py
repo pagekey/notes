@@ -1,9 +1,11 @@
 from pathlib import Path
 from typing import List
 
+from pagekey_tasks_backend.workspace import get_workspace
+
 
 def create_action(title: str):
-    actions_file = Path(".") / "notes" / "Actions.md"
+    actions_file = Path(get_workspace()) / "Actions.md"
     actions_file.parent.mkdir(parents=True, exist_ok=True)
     if not actions_file.exists():
         actions_file.touch()
@@ -13,7 +15,7 @@ def create_action(title: str):
 
 
 def get_actions() -> List[str]:
-    actions_file = Path(".") / "notes" / "Actions.md"
+    actions_file = Path(get_workspace()) / "Actions.md"
     if actions_file.exists():
         actions = []
         with open(actions_file, "r") as file_handle:

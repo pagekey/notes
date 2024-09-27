@@ -1,6 +1,8 @@
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
+from pagekey_tasks_backend.workspace import get_workspace
+
 
 @dataclass
 class Note:
@@ -10,7 +12,7 @@ class Note:
 
 
 def create_note(title: str, body: str):
-    notes_dir = Path(".") / "notes" / "Inbox"
+    notes_dir = Path(get_workspace()) / "Inbox"
     notes_dir.mkdir(parents=True, exist_ok=True)
     latest_id = -1
     for note_file in notes_dir.iterdir():
@@ -24,7 +26,7 @@ def create_note(title: str, body: str):
 
 
 def get_notes():
-    notes_dir = Path(".") / "notes" / "Inbox"
+    notes_dir = Path(get_workspace()) / "Inbox"
     notes = []
     notes_dir.mkdir(parents=True, exist_ok=True)
     for note_file in notes_dir.iterdir():
@@ -37,7 +39,7 @@ def get_notes():
 
 
 def delete_note(id: str):
-    notes_dir = Path(".") / "notes" / "Inbox"
+    notes_dir = Path(get_workspace()) / "Inbox"
     notes_dir.mkdir(parents=True, exist_ok=True)
     for note_file in notes_dir.iterdir():
         note_file_id = int(note_file.name.split("_")[0])

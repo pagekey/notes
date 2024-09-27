@@ -2,6 +2,8 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import List
 
+from pagekey_tasks_backend.workspace import get_workspace
+
 
 @dataclass
 class Project:
@@ -9,7 +11,7 @@ class Project:
 
 
 def create_project(title: str):
-    projects_dir = Path(".") / "notes" / "Projects"
+    projects_dir = Path(get_workspace()) / "Projects"
     project_file = projects_dir / title / f"_{title}.md"
     project_file.parent.mkdir(parents=True, exist_ok=True)
     with open(project_file, 'w') as file_handle:
@@ -17,7 +19,7 @@ def create_project(title: str):
 
 
 def get_projects():
-    projects_dir = Path(".") / "notes" / "Projects"
+    projects_dir = Path(get_workspace()) / "Projects"
     projects = []
     projects_dir.mkdir(parents=True, exist_ok=True)
     for project_dir in projects_dir.iterdir():

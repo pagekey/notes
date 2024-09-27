@@ -67,6 +67,8 @@ export default function() {
             headers: {
                 "Content-Type": "application/json",
             },
+        }).then(res => res.json()).then(res => {
+            window.location.reload();
         });
     };
     return (
